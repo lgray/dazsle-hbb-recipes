@@ -33,5 +33,7 @@
 import ids
 import kfactors
 import weights
+import plots
+import gentools
 
 from version import __version__

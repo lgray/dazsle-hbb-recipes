@@ -6,4 +6,4 @@ from muons import calcMuonDeltaBetaIso,passMuonLooseSel,passMuonMediumSel,passMu
 from taus import passTauSel
 from jets import passLooseJetSel,passJetTightLepVetoSel
 from jet_vetos import selectVetoMuons,selectVetoElectrons,selectVetoPhotons,selectVetoTaus
-from btag import CSV_Medium
+from btag import CSV_Loose,CSV_Medium,CSV_Tight

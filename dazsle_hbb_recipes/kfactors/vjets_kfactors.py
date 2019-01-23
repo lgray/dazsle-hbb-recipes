@@ -84,12 +84,12 @@ def getKFactor2016(sampleName,lookup,genVPt):
     kfactor   = genVPt.ones_like()
     kfactor  *= calculateBaseKFactor(sampleName,lookup,genVPt)
     kfactor  *= VJetsQQ_kFactor2016(sampleName,lookup,genVPt)
-    nlo_systs = calculateNLOKFactorAndSysts(sampleName,lookup,genVPt)
+    nlo_systs = calculateNLOKFactorAndSysts(sampleName,lookup,genVPt)[1]
     return {'central':kfactor,'systs':nlo_systs}
 
 def getKFactor2017(sampleName,lookup,genVPt):
     kfactor   = genVPt.ones_like()
     kfactor  *= calculateBaseKFactor(sampleName,lookup,genVPt)
     kfactor  *= VJetsQQ_kFactor2017(sampleName,lookup,genVPt)
-    nlo_systs = calculateNLOKFactorAndSysts(sampleName,lookup,genVPt)
+    nlo_systs = calculateNLOKFactorAndSysts(sampleName,lookup,genVPt)[1]
     return {'central':kfactor,'systs':nlo_systs}
