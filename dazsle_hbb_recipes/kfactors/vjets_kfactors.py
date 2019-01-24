@@ -25,18 +25,18 @@ def hackEvaluatorForVJetsQQ_2016(lookup):
 def VJetsQQ_kFactor2016(sampleName,lookup,genVPt):
     kfactor = genVPt.ones_like()
     if 'ZJetsToQQ_' in sampleName:
-        kfactor = lookup['ZJetsNLO_2016'](np.clip(genVPt,250.,1200.))
+        kfactor._content = lookup['ZJetsNLO_2016'](np.clip(genVPt.content,250.,1200.))
     elif 'WJetsToQQ_' in sampleName:
-        kfactor = lookup['WJetsNLO_2016'](np.clip(genVPt,250.,1200.))
+        kfactor._content = lookup['WJetsNLO_2016'](np.clip(genVPt.content,250.,1200.))
     return kfactor
 
 #2017
 def VJetsQQ_kFactor2017(sampleName,lookup,genVPt):
     kfactor = genVPt.ones_like()
     if 'ZJetsToQQ_' in sampleName:
-        kfactor = lookup['ZJetsNLO'](np.clip(genVPt,250.,1200.))
+        kfactor._content = lookup['ZJetsNLO'](np.clip(genVPt.content,250.,1200.))
     elif 'WJetsToQQ_' in sampleName:
-        kfactor = lookup['WJetsNLO'](np.clip(genVPt,250.,1200.))
+        kfactor._content = lookup['WJetsNLO'](np.clip(genVPt.content,250.,1200.))
     return kfactor
 
 def calculateBaseKFactor(sampleName,lookup,genVPt):
@@ -45,9 +45,9 @@ def calculateBaseKFactor(sampleName,lookup,genVPt):
     
     if ( 'ZJets' in sampleName or  'DYJets' in sampleName or
         'ZPrime' in sampleName or 'VectorDiJet' in sampleName ):
-        kfactor *= lookup["EWKcorr/Z"](maxxed)/lookup["ZJets_LO/inv_pt"](maxxed)
+        kfactor = kfactor * lookup["EWKcorr/Z"](maxxed)/lookup["ZJets_LO/inv_pt"](maxxed)
     if 'WJets' in sampleName:
-        kfactor *= lookup["EWKcorr/W"](maxxed)/lookup["WJets_LO/inv_pt"](maxxed)
+        kfactor = kfactor * lookup["EWKcorr/W"](maxxed)/lookup["WJets_LO/inv_pt"](maxxed)
     return kfactor
 
 def calculateNLOKFactorAndSysts(sampleName,lookup,genVPt):
@@ -56,40 +56,40 @@ def calculateNLOKFactorAndSysts(sampleName,lookup,genVPt):
     ren_up,ren_down = genVPt.ones_like(),genVPt.ones_like()
     fac_up,fac_down = genVPt.ones_like(),genVPt.ones_like()
     
-    clipped = np.clip(genVPt,100.,700.)
+    clipped = np.clip(genVPt.content,100.,700.)
     
     if ( 'ZJets' in sampleName or  'DYJets' in sampleName or
-        'ZPrime' in sampleName or 'VectorDiJet' in sampleName ):
-        central   = lookup["ZJets_012j_NLO/nominal"](clipped)
-        pdf_raw   = lookup["ZJets_012j_NLO/PDF"](clipped)
-        pdf_up   += pdf_raw
-        pdf_down -= pdf_raw
-        ren_up    = lookup["ZJets_012j_NLO/ren_up"](clipped)
-        ren_down  = lookup["ZJets_012j_NLO/ren_down"](clipped)
-        fac_up    = lookup["ZJets_012j_NLO/fact_up"](clipped)
-        fac_down  = lookup["ZJets_012j_NLO/fact_down"](clipped)
+         'ZPrime' in sampleName or 'VectorDiJet' in sampleName ):
+        central._content   = lookup["ZJets_012j_NLO/nominal"](clipped)
+        pdf_raw            = lookup["ZJets_012j_NLO/PDF"](clipped)
+        pdf_up._content    = pdf_up._content   + pdf_raw
+        pdf_down._content  = pdf_down._content - pdf_raw
+        ren_up._content    = lookup["ZJets_012j_NLO/ren_up"](clipped)
+        ren_down._content  = lookup["ZJets_012j_NLO/ren_down"](clipped)
+        fac_up._content    = lookup["ZJets_012j_NLO/fact_up"](clipped)
+        fac_down._content  = lookup["ZJets_012j_NLO/fact_down"](clipped)
     if 'WJets' in sampleName:
-        central   = lookup["WJets_012j_NLO/nominal"](clipped)
-        pdf_raw   = lookup["WJets_012j_NLO/PDF"](clipped)
-        pdf_up   += pdf_raw
-        pdf_down -= pdf_raw
-        ren_up    = lookup["WJets_012j_NLO/ren_up"](clipped)
-        ren_down  = lookup["WJets_012j_NLO/ren_down"](clipped)
-        fac_up    = lookup["WJets_012j_NLO/fact_up"](clipped)
-        fac_down  = lookup["WJets_012j_NLO/fact_down"](clipped)
+        central._content   = lookup["WJets_012j_NLO/nominal"](clipped)
+        pdf_raw            = lookup["WJets_012j_NLO/PDF"](clipped)
+        pdf_up._content    = pdf_up._content + pdf_raw
+        pdf_down._content  = pdf_down._content - pdf_raw
+        ren_up._content    = lookup["WJets_012j_NLO/ren_up"](clipped)
+        ren_down._content  = lookup["WJets_012j_NLO/ren_down"](clipped)
+        fac_up._content    = lookup["WJets_012j_NLO/fact_up"](clipped)
+        fac_down._content  = lookup["WJets_012j_NLO/fact_down"](clipped)
         
     return (central,{'PDF':(pdf_up,pdf_down),'ren':(ren_up,ren_down),'fact':(fac_up,fac_down)})
 
 def getKFactor2016(sampleName,lookup,genVPt):
     kfactor   = genVPt.ones_like()
-    kfactor  *= calculateBaseKFactor(sampleName,lookup,genVPt)
-    kfactor  *= VJetsQQ_kFactor2016(sampleName,lookup,genVPt)
+    kfactor   = kfactor * calculateBaseKFactor(sampleName,lookup,genVPt)
+    kfactor   = kfactor * VJetsQQ_kFactor2016(sampleName,lookup,genVPt)
     nlo_systs = calculateNLOKFactorAndSysts(sampleName,lookup,genVPt)[1]
     return {'central':kfactor,'systs':nlo_systs}
 
 def getKFactor2017(sampleName,lookup,genVPt):
     kfactor   = genVPt.ones_like()
-    kfactor  *= calculateBaseKFactor(sampleName,lookup,genVPt)
-    kfactor  *= VJetsQQ_kFactor2017(sampleName,lookup,genVPt)
+    kfactor   = kfactor * calculateBaseKFactor(sampleName,lookup,genVPt)
+    kfactor   = kfactor * VJetsQQ_kFactor2017(sampleName,lookup,genVPt)
     nlo_systs = calculateNLOKFactorAndSysts(sampleName,lookup,genVPt)[1]
     return {'central':kfactor,'systs':nlo_systs}

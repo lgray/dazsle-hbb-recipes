@@ -1,1 +1,2 @@
-from gentools import getParentsOfType,getParentsOfTypeFlat,hasParentOfType,getChildrenOfType
+from gentools import getParentsOfType,getParentsOfTypeFlat,hasParentOfType,\
+                     getChildrenOfType,getHighestPtBoson
