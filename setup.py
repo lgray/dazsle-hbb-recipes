@@ -68,15 +68,8 @@ setup(name = "dazsle-hbb-recipes",
       download_url = "https://github.com/lgray/dazsle-hbb-recipes/releases",
       license = "BSD 3-clause",
       test_suite = "tests",
-      install_requires = [
-          "awkward>=0.5.0",
-          "matplotlib<3" if six.PY2 else "matplotlib>=3",
-          "numba>=0.42.0",
-          "numpy>=1.13.1",
-          "scipy>=1.1.0",
-          "uproot-methods>=0.3.3",
-          "uproot>=3.2.12",
-          "fnal-column-analysis-tools>=0.1.1"
+      install_requires = [          
+          "fnal-column-analysis-tools>=0.2.1"
       ],
       setup_requires = ["pytest-runner"],
       tests_require = ["pytest"],
