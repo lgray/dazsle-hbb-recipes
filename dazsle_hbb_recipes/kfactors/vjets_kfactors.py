@@ -1,8 +1,8 @@
 """WJetsQQ and ZJetsQQ kfactors"""
 
-import numpy as np
 from fnal_column_analysis_tools.lookup_tools import evaluator
-from awkward import JaggedArray
+from fnal_column_analysis_tools.util import awkward
+from fnal_column_analysis_tools.util import numpy as np
 from copy import deepcopy
 
 #hack for 2016
@@ -41,13 +41,12 @@ def VJetsQQ_kFactor2017(sampleName,lookup,genVPt):
 
 def calculateBaseKFactor(sampleName,lookup,genVPt):
     kfactor = genVPt.ones_like()
-    maxxed = np.maximum(genVPt,100.)
-    
+    maxxed = np.maximum(genVPt._content,100.)
     if ( 'ZJets' in sampleName or  'DYJets' in sampleName or
         'ZPrime' in sampleName or 'VectorDiJet' in sampleName ):
-        kfactor = kfactor * lookup["EWKcorr/Z"](maxxed)/lookup["ZJets_LO/inv_pt"](maxxed)
+        kfactor._content = lookup["EWKcorr/Z"](maxxed)/lookup["ZJets_LO/inv_pt"](maxxed)
     if 'WJets' in sampleName:
-        kfactor = kfactor * lookup["EWKcorr/W"](maxxed)/lookup["WJets_LO/inv_pt"](maxxed)
+        kfactor._content = lookup["EWKcorr/W"](maxxed)/lookup["WJets_LO/inv_pt"](maxxed)
     return kfactor
 
 def calculateNLOKFactorAndSysts(sampleName,lookup,genVPt):

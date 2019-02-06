@@ -1,7 +1,7 @@
 """electron IDs"""
 
 import numpy as np
-from awkward import JaggedArray
+from fnal_column_analysis_tools.util import awkward
 from fnal_column_analysis_tools.analysis_objects import JaggedCandidateArray
 
 kEcalDriven    = 1 << 0
@@ -34,7 +34,7 @@ def passEleVetoSel(electron):
                        ( np.abs(1.0 - electron.eoverp.content[notEta]) <
                                 0.15000*electron.ecalEnergy.content[notEta]   ) &
                        ( electron.nMissingHits.content[notEta] <= 3           )   )
-    outs = JaggedArray.fromoffsets(electron.pt.offsets,outs)
+    outs = awkward.JaggedArray.fromoffsets(electron.pt.offsets,outs)
     return outs
 
 def passEleLooseSel(electron):
@@ -61,7 +61,7 @@ def passEleLooseSel(electron):
                       ( np.abs(1.0 - electron.eoverp.content[notEta]) <
                                0.14000*electron.ecalEnergy.content[notEta]   ) &
                       ( electron.nMissingHits.content[notEta] <= 1           )   )
-    outs = JaggedArray.fromoffsets(electron.pt.offsets,outs)
+    outs = awkward.JaggedArray.fromoffsets(electron.pt.offsets,outs)
     return outs
 
 def passEleMediumSel(electron):
@@ -88,7 +88,7 @@ def passEleMediumSel(electron):
                       ( np.abs(1.0 - electron.eoverp.content[notEta]) <
                                0.13000*electron.ecalEnergy.content[notEta]   ) &
                       ( electron.nMissingHits.content[notEta] <= 1           )   )
-    outs = JaggedArray.fromoffsets(electron.pt.offsets,outs)
+    outs = awkward.JaggedArray.fromoffsets(electron.pt.offsets,outs)
     return outs
 
 def passEleTightSel(electron):
@@ -115,7 +115,7 @@ def passEleTightSel(electron):
                       ( np.abs(1.0 - electron.eoverp.content[notEta]) <
                                0.12900*electron.ecalEnergy.content[notEta]   ) &
                       ( electron.nMissingHits.content[notEta] <= 1           )   )
-    outs = JaggedArray.fromoffsets(electron.pt.offsets,outs)
+    outs = awkward.JaggedArray.fromoffsets(electron.pt.offsets,outs)
     return outs
 
 def passEleHEEPSel(electron,rho,met):
@@ -161,5 +161,5 @@ def passEleHEEPSel(electron,rho,met):
                       ( electron.trkIso.content[etaEnd] < 5                  ) &
                       ( electron.nMissingHits.content[etaEnd] <= 1           ) &
                       ( electron.d0.content[etaEnd] <= 0.05                  )   )
-    outs = JaggedArray.fromoffsets(electron.pt.offsets,outs)
+    outs = awkward.JaggedArray.fromoffsets(electron.pt.offsets,outs)
     return outs

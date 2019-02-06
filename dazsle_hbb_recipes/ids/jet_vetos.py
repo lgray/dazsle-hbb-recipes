@@ -1,7 +1,7 @@
 """jet vetos (run these after decorating the objects)"""
 
 import numpy as np
-from awkward import JaggedArray
+from fnal_column_analysis_tools.util import awkward
 from fnal_column_analysis_tools.analysis_objects import JaggedCandidateArray
 
 from muons import passMuonLooseSel,passMuonTightSel

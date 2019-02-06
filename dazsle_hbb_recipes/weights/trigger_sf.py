@@ -1,8 +1,8 @@
 """trigger eff scale factors (todo: )"""
 
-import numpy as np
+from fnal_column_analysis_tools.util import awkward
+from fnal_column_analysis_tools.util import numpy as np
 import scipy.stats
-from awkward import JaggedArray
 from fnal_column_analysis_tools.analysis_objects import JaggedCandidateArray
 from fnal_column_analysis_tools.lookup_tools import evaluator
 from copy import deepcopy
@@ -26,7 +26,7 @@ def hackEvaluatorForVTrigSF(evaluator,alpha=0.31731):
 def VtrigSF(evaluator,ak8msd,ak8pt):
     msd = ak8msd
     pt = ak8pt
-    if isinstance(ak8msd,JaggedArray):
+    if isinstance(ak8msd,awkward.JaggedArray):
         assert (ak8msd.offsets==ak8pt.offsets).all()
         msd = ak8msd.flatten()
         pt = ak8pt.flatten()
@@ -37,8 +37,8 @@ def VtrigSF(evaluator,ak8msd,ak8pt):
     eff = evaluator['data_obs_muCR4_eff'](msd,pt)
     lo  = evaluator['data_obs_muCR4_eff_down'](msd,pt)
     hi  = evaluator['data_obs_muCR4_eff_up'](msd,pt)
-    if isinstance(ak8msd,JaggedArray):
-        eff = JaggedArray.fromoffsets(ak8pt.offsets,eff)
-        lo  = JaggedArray.fromoffsets(ak8pt.offsets,lo)
-        hi  = JaggedArray.fromoffsets(ak8pt.offsets,hi)
+    if isinstance(ak8msd,awkward.JaggedArray):
+        eff = awkward.JaggedArray.fromoffsets(ak8pt.offsets,eff)
+        lo  = awkward.JaggedArray.fromoffsets(ak8pt.offsets,lo)
+        hi  = awkward.JaggedArray.fromoffsets(ak8pt.offsets,hi)
     return eff,hi,lo

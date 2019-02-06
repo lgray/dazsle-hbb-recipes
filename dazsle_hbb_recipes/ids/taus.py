@@ -1,7 +1,7 @@
 """tau IDs"""
 
 import numpy as np
-from awkward import JaggedArray
+from fnal_column_analysis_tools.util import awkward
 from fnal_column_analysis_tools.analysis_objects import JaggedCandidateArray
 
 # descriptions from https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuidePFTauID#Discriminators

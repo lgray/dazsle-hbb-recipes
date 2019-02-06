@@ -1,7 +1,7 @@
 """muon IDs"""
 
 import numpy as np
-from awkward import JaggedArray
+from fnal_column_analysis_tools.util import awkward
 from fnal_column_analysis_tools.analysis_objects import JaggedCandidateArray
 
 kPOGLooseMuon  =  1 << 0

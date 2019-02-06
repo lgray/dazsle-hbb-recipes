@@ -1,7 +1,7 @@
 """PUPPI soft-drop mass correction"""
 
-import numpy as np
-from awkward import JaggedArray
+from fnal_column_analysis_tools.util import numpy as np
+from fnal_column_analysis_tools.util import awkward
 from fnal_column_analysis_tools.analysis_objects import JaggedCandidateArray
 
 def corrGEN(pt):
@@ -24,7 +24,7 @@ def corrRECO_for(pt):
 def PUPPIweight(ak8pt,ak8eta):
     pt = ak8pt
     eta = ak8eta
-    if isinstance(ak8pt,JaggedArray):
+    if isinstance(ak8pt,awkward.JaggedArray):
         assert (ak8pt.offsets==ak8eta.offsets).all()
         pt = ak8pt.flatten()
         eta = ak8eta.flatten()
@@ -40,7 +40,7 @@ def PUPPIweight(ak8pt,ak8eta):
     
     total = genCorr*recoCorr
     
-    if isinstance(ak8pt,JaggedArray):
-        total = JaggedArray.fromoffsets(ak8pt.offsets,total)
+    if isinstance(ak8pt,awkward.JaggedArray):
+        total = awkward.JaggedArray.fromoffsets(ak8pt.offsets,total)
     
     return total

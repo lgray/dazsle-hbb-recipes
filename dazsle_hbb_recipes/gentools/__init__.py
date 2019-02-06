@@ -1,2 +1,3 @@
 from gentools import getParentsOfType,getParentsOfTypeFlat,hasParentOfType,\
-                     getChildrenOfType,getHighestPtBoson
+                     getChildrenOfType,getHighestPtBoson,parseGeneratorHistory,\
+                     activePdgIds,activePdgIdLabels

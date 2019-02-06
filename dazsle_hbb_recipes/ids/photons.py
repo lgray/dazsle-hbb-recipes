@@ -1,7 +1,7 @@
 """photon IDs"""
 
 import numpy as np
-from awkward import JaggedArray
+from fnal_column_analysis_tools.util import awkward
 from fnal_column_analysis_tools.analysis_objects import JaggedCandidateArray
 
 def calcPhotonEffAreaIso(photon,rho):
@@ -22,17 +22,17 @@ def calcPhotonEffAreaIso(photon,rho):
     #loose
     maxNeuHadLooseIso[etaCut] = 10.910 + ptshape[etaCut]
     maxNeuHadLooseIso[notEta] = 5.931  + ptshape[notEta]
-    maxNeuHadLooseIso = JaggedArray.fromoffsets(photon.pt.offsets,maxNeuHadLooseIso)
+    maxNeuHadLooseIso = awkward.JaggedArray.fromoffsets(photon.pt.offsets,maxNeuHadLooseIso)
     
     #medium
     maxNeuHadMediumIso[etaCut] = 2.725 + ptshape[etaCut]
     maxNeuHadMediumIso[notEta] = 1.715 + ptshape[notEta]
-    maxNeuHadMediumIso = JaggedArray.fromoffsets(photon.pt.offsets,maxNeuHadMediumIso)
+    maxNeuHadMediumIso = awkward.JaggedArray.fromoffsets(photon.pt.offsets,maxNeuHadMediumIso)
     
     #tight
     maxNeuHadTightIso[etaCut] = 0.264 + ptshape[etaCut]
     maxNeuHadTightIso[notEta] = 0.586 + ptshape[notEta]
-    maxNeuHadTightIso = JaggedArray.fromoffsets(photon.pt.offsets,maxNeuHadTightIso)
+    maxNeuHadTightIso = awkward.JaggedArray.fromoffsets(photon.pt.offsets,maxNeuHadTightIso)
     
     return chHadIso,neuHadIso,phoIso,maxNeuHadLooseIso,maxNeuHadMediumIso,maxNeuHadTightIso
 
@@ -56,7 +56,7 @@ def passPhoLooseSel(photon):
                             photon.neuIsoLooseMax.content[notEta]   ) &
                       (photon.gamIsoCorr.content[notEta] <= 6.641 +
                                    0.0034*photon.pt.content[notEta] )   )
-    outs = JaggedArray.fromoffsets(photon.pt.offsets,outs)
+    outs = awkward.JaggedArray.fromoffsets(photon.pt.offsets,outs)
     return outs
 
 def passPhoMediumSel(photon):
@@ -79,7 +79,7 @@ def passPhoMediumSel(photon):
                             photon.neuIsoMediumMax.content[notEta]  ) &
                       (photon.gamIsoCorr.content[notEta] <= 3.863 +
                                    0.0034*photon.pt.content[notEta] )   )
-    outs = JaggedArray.fromoffsets(photon.pt.offsets,outs)
+    outs = awkward.JaggedArray.fromoffsets(photon.pt.offsets,outs)
     return outs
 
 def passPhoTightSel(photon):
@@ -102,5 +102,5 @@ def passPhoTightSel(photon):
                             photon.neuIsoTightMax.content[notEta]   ) &
                       (photon.gamIsoCorr.content[notEta] <= 2.617 +
                                    0.0034*photon.pt.content[notEta] )   )
-    outs = JaggedArray.fromoffsets(photon.pt.offsets,outs)
+    outs = awkward.JaggedArray.fromoffsets(photon.pt.offsets,outs)
     return outs
