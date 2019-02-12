@@ -1,1 +1,2 @@
 from vjets_kfactors import hackEvaluatorForVJetsQQ_2016,getKFactor2016,getKFactor2017
+from top_kfactors import calculateTopKFactor

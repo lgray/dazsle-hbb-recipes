@@ -1,3 +1,4 @@
 from gentools import getParentsOfType,getParentsOfTypeFlat,hasParentOfType,\
                      getChildrenOfType,getHighestPtBoson,parseGeneratorHistory,\
-                     activePdgIds,activePdgIdLabels
+                     tagDecay,tagDecayJagged,isHadronicV,getHadronicVIndices,classifyTopDecays,\
+                     getTopQuarks
