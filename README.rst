@@ -3,22 +3,17 @@ dazsle-hbb-recipes
 
 .. inclusion-marker-1-do-not-remove
 
-Basic tools and wrappers for enabling not-too-alien syntax when running columnar Collider HEP analysis.
+This is a highly idiomatic package that contains all the recipes for IDs, generator tools, k-factors, and various scalings for the DAZSLE Hbb/Hcc analysis.
 
 .. inclusion-marker-1-5-do-not-remove
 
-This package is currently organized into three subpackages:
+This package is currently organized into five subpackages:
 
-1) lookup_tools - This package manages importing corrections and scale factors, and provides a unified interface for evaluating those corrections on physics objects.
-    - lookup_tools.extractor: handles importing the lookups from root files
-    - lookup_tools.evaluator: handles organizing, providing an interface for, and evaluating the lookups
-2) analysis_objects - This package contains definitions of physics objects casted in the language of JaggedArrays
-    - JaggedCandidateArray - This object represents a list of candidates (things with four momenta and other attribute). Upon creation one can add extra columns of data that were not imported at construction, and all columns are accessible as though they were attributes of the class. This gives analysts a simple-to-read but rich, descriptive, and highly configurable object to represent muons, electrons, etc.
-    - JaggedTLorentzVectorArray - This is a jagged representation of a TLorentzVectorArray. 
-3) striped - This package defines transformations from the raw striped database into JaggedArrays and JaggedCandidateArrays
-    - ColumnGroup - This object takes the name of a column that has attributes in striped and creates a dictionary of all given attributes.
-    - PhysicalColumnGroup - Just like ColumnGroup except it requires a "p4" attribute to be defined, and is specialized to aide in creating JaggedCandidateArrays
-    - jaggedFromColumnGroup - This is a function that takes a column group and returns a JaggedArray if it is a normal column group, or a JaggedCandidateArray if given a PhysicalColumnGroup
+1) gentools - for iterating through baconprod particle histories
+2) ids - POG Ids and a few veto selections on top of baconprod
+3) kfactors - kfactors for V+jets and TTbar on top of BaconProd
+4) plots - plots we want to make in various signal regions
+5) weights - scale factors and related
 
 .. inclusion-marker-2-do-not-remove
 
