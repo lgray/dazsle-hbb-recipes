@@ -147,10 +147,10 @@ def classifyTopDecays(argVs,Vdecays,eventTypes,parentage,status,parents,pdgId,st
 top_pdgId = 6
 def getTopQuarks(pdgId,status): #this works for ttbar and single top...
     last_status_top = status[pdgId==top_pdgId].max()
-    top_args = ((status == last_status_top) & (pdgId==top_pdgId)).argmax()
+    top_args = ((status == last_status_top) & (pdgId==top_pdgId)).astype(np.int).argmax()
 
     last_status_antitop = status[pdgId==-top_pdgId].max()
-    antitop_args = ((status == last_status_antitop) & (pdgId==-top_pdgId)).argmax()
+    antitop_args = ((status == last_status_antitop) & (pdgId==-top_pdgId)).astype(np.int).argmax()
     return top_args,antitop_args
 
 #returns local index of first parent in history
