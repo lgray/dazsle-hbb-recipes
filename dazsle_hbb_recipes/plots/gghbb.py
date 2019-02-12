@@ -6,10 +6,10 @@ from fnal_column_analysis_tools.hist import plot
 from copy import deepcopy
 
 dataset = hist.Cat("dataset", "Primary dataset")
-
-gencat = hist.Bin("ak8_isHadronicV", "Matched", [0,1,2,3,9,10,11])
+systematic = hist.Cat("systematic", "Systematic Variation")
+gencat = hist.Bin("ak8_isHadronicV", "Matched", [-1,0,1,2,3,9,10,11])
 # one can relabel intervals, although process mapping obviates this
-titles = ["QCD", "V(light) matched", "V(c) matched", "V(b) matched", "Top W(ud)+b", "Top W(cs)+b"]
+titles = ["Data","QCD", "V(light) matched", "V(c) matched", "V(b) matched", "Top W(ud)+b", "Top W(cs)+b"]
 for i,v in enumerate(gencat.identifiers()):
     setattr(v, 'label', titles[i])
 
@@ -31,19 +31,44 @@ n2ddt_coarse = hist.Bin("ak8_N2sdb1_ddt", "N2 DDT", [0.])
 
 
 hists = {}
-hists['sumw'] = hist.Hist("sumw", dataset, hist.Bin("sumw", "Weight value", [0.]))
-hists['hjetpt'] = hist.Hist("Events", dataset, gencat, hist.Bin("ak8_pt", "Jet $p_T$", 100, 300, 1300), dtype='f')
-hists['hjetpt_sr'] = hist.Hist("Events", dataset, gencat, hist.Bin("ak8_pt", "Jet $p_T$", 100, 300, 1300), dtype='f')
+hists['sumw'] = hist.Hist("sumw", dataset, systematic, hist.Bin("sumw", "Weight value", [0.]))
+hists['hjetpt'] = hist.Hist("Events", dataset, gencat, systematic, hist.Bin("ak8_pt", "Jet $p_T$", 100, 300, 1300), dtype='f')
+hists['hjetpt_sr'] = hist.Hist("Events", dataset, gencat, systematic, hist.Bin("ak8_pt", "Jet $p_T$", 100, 300, 1300), dtype='f')
 #hists['htagtensor'] = hist.Hist("Events", dataset, gencat, jetpt_coarse, n2ddt_coarse, jetmass_coarse, doubleb, doublec, doublecvb, dtype='f')
-hists['hsculpt'] = hist.Hist("Events", dataset, gencat, jetpt, jetmass, doubleb_coarse, doublec_coarse, doublecvb_coarse, dtype='f')
-hists['hsculpt_sr'] = hist.Hist("Events", dataset, gencat, jetpt, jetmass, doubleb_coarse, doublec_coarse, doublecvb_coarse, dtype='f')
+hists['hsculpt'] = hist.Hist("Events", dataset, gencat, systematic,
+                             jetpt, jetmass, doubleb_coarse, doublec_coarse, doublecvb_coarse, dtype='f')
+hists['hsculpt_sr'] = hist.Hist("Events", dataset, gencat, systematic,
+                                jetpt, jetmass, doubleb_coarse, doublec_coarse, doublecvb_coarse, dtype='f')
 
-hists['pfmet_nminus1_sr'] = hist.Hist("Events", dataset, gencat, jetpt_coarse, jetmass_coarse, hist.Bin("pfmet", r"PF $p_{T}^{miss}$", 40, 0, 200))
-hists['opposite_ak8_n3sdb1_sr'] = hist.Hist("Events", dataset, gencat, jetpt_coarse, jetmass_coarse, hist.Bin("opposite_ak8_n3sdb1", r"Jet $N_{3,sd}^{\beta=1}$", 40, 0.5, 3))
-hists['opposite_ak8_tau32_sr'] = hist.Hist("Events", dataset, gencat, jetpt_coarse, jetmass_coarse, hist.Bin("opposite_ak8_tau32", r"Jet $\tau_{32}$", 40, 0, 1))
-hists['opposite_ak8_msd_sr'] = hist.Hist("Events", dataset, gencat, jetpt_coarse, jetmass_coarse, hist.Bin("opposite_ak8_msd", r"Jet $\m_{sd}$", 40, 50, 200))
-hists['opposite_ak4_leadingDeepCSV_sr'] = hist.Hist("Events", dataset, gencat, jetpt_coarse, jetmass_coarse, hist.Bin("opposite_ak4_leadingDeepCSV", "Max(DeepCSV) (of $\leq4$ leading)", 40, 0, 1))
+hists['pfmet_nminus1_sr'] = hist.Hist("Events", dataset, gencat, systematic,
+                                      jetpt_coarse, jetmass_coarse, hist.Bin("pfmet", r"PF $p_{T}^{miss}$", 40, 0, 200))
+hists['opposite_ak8_n3sdb1_sr'] = hist.Hist("Events", dataset, gencat, systematic,
+                                            jetpt_coarse, jetmass_coarse,
+                                            hist.Bin("opposite_ak8_n3sdb1", r"Jet $N_{3,sd}^{\beta=1}$", 40, 0.5, 3))
+hists['opposite_ak8_tau32_sr'] = hist.Hist("Events", dataset, gencat, systematic,
+                                           jetpt_coarse, jetmass_coarse,
+                                           hist.Bin("opposite_ak8_tau32", r"Jet $\tau_{32}$", 40, 0, 1))
+hists['opposite_ak8_msd_sr'] = hist.Hist("Events", dataset, gencat, systematic,
+                                         jetpt_coarse, jetmass_coarse,
+                                         hist.Bin("opposite_ak8_msd", r"Jet $\m_{sd}$", 40, 50, 200))
+hists['opposite_ak4_leadingDeepCSV_sr'] = hist.Hist("Events", dataset, gencat, systematic,
+                                                    jetpt_coarse, jetmass_coarse,
+                                                    hist.Bin("opposite_ak4_leadingDeepCSV", "Max(DeepCSV) (of $\leq4$ leading)", 40, 0, 1))
 
-for k,h in hists.items():
-    if '_sr' in k:
-        hists[k[:-3]+'_mucr'] = deepcopy(h)
+#muon control region
+hists['hjetpt_mucr'] = hist.Hist("Events", dataset, gencat, systematic, hist.Bin("ak8_pt", "Jet $p_T$", 100, 300, 1300), dtype='f')
+hists['hsculpt_mucr'] = hist.Hist("Events", dataset, gencat, systematic,
+                                jetpt, jetmass, doubleb_coarse, doublec_coarse, doublecvb_coarse, dtype='f')
+hists['opposite_ak8_n3sdb1_mucr'] = hist.Hist("Events", dataset, gencat, systematic,
+                                            jetpt_coarse, jetmass_coarse,
+                                            hist.Bin("opposite_ak8_n3sdb1", r"Jet $N_{3,sd}^{\beta=1}$", 40, 0.5, 3))
+hists['opposite_ak8_tau32_mucr'] = hist.Hist("Events", dataset, gencat, systematic,
+                                           jetpt_coarse, jetmass_coarse,
+                                           hist.Bin("opposite_ak8_tau32", r"Jet $\tau_{32}$", 40, 0, 1))
+hists['opposite_ak8_msd_mucr'] = hist.Hist("Events", dataset, gencat, systematic,
+                                         jetpt_coarse, jetmass_coarse,
+                                         hist.Bin("opposite_ak8_msd", r"Jet $\m_{sd}$", 40, 50, 200))
+hists['opposite_ak4_leadingDeepCSV_mucr'] = hist.Hist("Events", dataset, gencat, systematic,
+                                                    jetpt_coarse, jetmass_coarse,
+                                                    hist.Bin("opposite_ak4_leadingDeepCSV", "Max(DeepCSV) (of $\leq4$ leading)", 40, 0, 1))
+
