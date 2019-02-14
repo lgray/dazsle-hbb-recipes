@@ -3,6 +3,8 @@
 from fnal_column_analysis_tools.util import numpy as np
 from fnal_column_analysis_tools.util import awkward
 
+import numba
+
 #http://pdg.lbl.gov/2007/reviews/montecarlorpp.pdf
 activePdgIds = [1,2,3,4,5,6,21,11,13,15,22,23,24,-24,25,55,211,111]
 activePdgIdLabels = list('duscbTgemtaZ') + ["W+","W-"] + list('hX')+['pi','pi0']
@@ -28,8 +30,8 @@ def parseGeneratorHistory(gp_pdgId_in,gp_parent_in):
     
     gp_proc = np.zeros(shape=gp_pdgId.shape, dtype='u4')
 
-    pdg_tmp = np.empty_like(gp_pdgId_mapped)
-    parent_tmp = np.empty_like(gp_ancestor)
+    fill_gen_parentage(pstarts,gp_pdgId_mapped, gp_parent_in, gp_proc, gp_ancestor_valid, gp_ancestor)
+    
     niter = 0
     while np.any(gp_ancestor_valid) and niter < 50:
         np.take(gp_pdgId_mapped, gp_ancestor, out=pdg_tmp, mode='clip')
@@ -47,12 +49,13 @@ def parseGeneratorHistory(gp_pdgId_in,gp_parent_in):
     return awkward.JaggedArray.fromoffsets(offsets, gp_proc)
 
 def tagDecayJagged(decayEndpoint,decayEndpointStatus,require,reject,parentage,status,pdgId,absPdg = True):
-    pdgMatch = pdgId
-    if absPdg: pdgMatch = np.abs(pdgId)
-    return ((status == decayEndpointStatus) &
+    pdgMatch = pdgId.content
+    if absPdg: pdgMatch = np.abs(pdgId.content)
+    mask = ((status.content == decayEndpointStatus) &
             (pdgMatch == decayEndpoint) &
-            ((parentage & require) == require) &
-            ((parentage & reject) == 0))
+            ((parentage.content & require) == require) &
+            ((parentage.content & reject) == 0))
+    return awkward.JaggedArray(pdgId.starts,pdgId.stops,mask)
 
 def tagDecay(decayEndpoint,decayEndpointStatus,require,reject,parentage,status,pdgId,absPdg = True):
     return tagDecayJagged(decayEndpoint,decayEndpointStatus,require,reject,parentage,status,pdgId,absPdg).any()

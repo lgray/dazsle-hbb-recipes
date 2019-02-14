@@ -65,9 +65,12 @@ def signal_region(gghbbcuts,
     pfmetweight = (eventInfo['pfmet'].sum() < gghbbcuts.METCUT)
     
     jetweight = leadingak8jet.weight.sum()
+    #jetweight[jetweight > 0.] = 1.0 #for now
     #preselection
     weight = jetweight * presel_weight
-    fill_plots_presel(dataset,gencat,systematic,leadingak8jet,weight,plots)
+    fill_plots_presel(dataset,gencat,systematic,leadingak8jet,
+                      weight,
+                      plots)
     
     #signal region no met cut
     weight_srnomet = weight * srweight_nomet
@@ -77,11 +80,15 @@ def signal_region(gghbbcuts,
                                    ak8_pt=leadingak8jet.pt.sum(),
                                    ak8_msd=leadingak8jet.msd_corr_8.sum(),
                                    pfmet=eventInfo['pfmet'].sum(),
-                                   weight=weight_srnomet)
+                                   weight=weight_srnomet
+                                   )
     
     #signal region variables
     weight_sr = weight_srnomet * pfmetweight
-    fill_plots_sr(dataset,gencat,systematic,leadingak8jet,weight_sr,plots)
+    weight_sr = weight_sr
+    fill_plots_sr(dataset,gencat,systematic,leadingak8jet,
+                  weight_sr,
+                  plots)
 
 
 

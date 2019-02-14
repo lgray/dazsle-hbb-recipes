@@ -88,6 +88,10 @@ def muon_control_region(gghbbcuts,
                   )
     
     #fill plots
-    weight = leadingak8jet.weight.sum() * presel_weight
+    jetweight = leadingak8jet.weight.sum()
+    #jetweight[jetweight > 0.] = 1.0 #for now
+    weight = jetweight * presel_weight
     weight_mucr = weight * mucrweight
-    fill_plots_mucr(dataset,gencat,systematic,leadingak8jet,weight_mucr,plots)
+    fill_plots_mucr(dataset,gencat,systematic,leadingak8jet,
+                    weight_mucr,
+                    plots)
