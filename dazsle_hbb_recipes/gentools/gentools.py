@@ -29,8 +29,6 @@ def parseGeneratorHistory(gp_pdgId_in,gp_parent_in):
             gp_pdgId_mapped[np.abs(gp_pdgId)==pdgId] = bit
     
     gp_proc = np.zeros(shape=gp_pdgId.shape, dtype='u4')
-
-    fill_gen_parentage(pstarts,gp_pdgId_mapped, gp_parent_in, gp_proc, gp_ancestor_valid, gp_ancestor)
     
     niter = 0
     while np.any(gp_ancestor_valid) and niter < 50:
