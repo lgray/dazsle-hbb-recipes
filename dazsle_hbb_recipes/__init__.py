@@ -30,10 +30,10 @@
 #OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 #OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import ids
-import kfactors
-import weights
-import plots
-import gentools
+import dazsle_hbb_recipes.ids
+import dazsle_hbb_recipes.kfactors
+import dazsle_hbb_recipes.weights
+import dazsle_hbb_recipes.plots
+import dazsle_hbb_recipes.gentools
 
-from version import __version__
+from dazsle_hbb_recipes.version import __version__

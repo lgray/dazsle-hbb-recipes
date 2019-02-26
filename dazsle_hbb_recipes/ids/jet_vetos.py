@@ -4,10 +4,10 @@ import numpy as np
 from fnal_column_analysis_tools.util import awkward
 from fnal_column_analysis_tools.analysis_objects import JaggedCandidateArray
 
-from muons import passMuonLooseSel,passMuonTightSel
-from electrons import passEleLooseSel,passEleTightSel
-from photons import passPhoMediumSel
-from taus import passTauSel
+from .muons import passMuonLooseSel,passMuonTightSel
+from .electrons import passEleLooseSel,passEleTightSel
+from .photons import passPhoMediumSel
+from .taus import passTauSel
 
 def selectVetoMuons(muons):
     commonVeto = ( (muons.pt > 10) &
