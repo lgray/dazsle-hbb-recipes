@@ -69,7 +69,7 @@ setup(name = "dazsle-hbb-recipes",
       license = "BSD 3-clause",
       test_suite = "tests",
       install_requires = [          
-          "fnal-column-analysis-tools>=0.2.1"
+          "fnal-column-analysis-tools>=0.2.3"
       ],
       setup_requires = ["pytest-runner"],
       tests_require = ["pytest"],
