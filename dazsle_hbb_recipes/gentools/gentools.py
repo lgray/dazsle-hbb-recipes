@@ -126,13 +126,13 @@ def getHadronicVIndices(VPdgId,parentage,parents,status,pdgId,statusValue=23):
     
     #here we assume that V always decays into two things!!!!
     good_parents = parents[events != 0]
-    good_dau_pdg = awkward.JaggedArray.fromcounts(np.full(daughters_flat.size/2,2),dau_pdgIds)
-    good_dau_pdg = awkward.JaggedArray.fromcounts(good_parents.counts/2,good_dau_pdg)
+    good_dau_pdg = awkward.JaggedArray.fromcounts(np.full(daughters_flat.size//2,2),dau_pdgIds)
+    good_dau_pdg = awkward.JaggedArray.fromcounts(good_parents.counts//2,good_dau_pdg)
     #good_daughters = awkward.JaggedArray.fromcounts(np.full(daughters_flat.size/2,2),daughters_flat)
     #good_daughters = awkward.JaggedArray.fromcounts(good_parents.counts/2,good_daughters)
 
     offset_Vs = (good_parents + parents.starts).content[::2]
-    offset_Vs = awkward.JaggedArray.fromcounts(good_parents.counts/2,offset_Vs) - parents.starts
+    offset_Vs = awkward.JaggedArray.fromcounts(good_parents.counts//2,offset_Vs) - parents.starts
     
     return offset_Vs,good_dau_pdg.max() #return the up-type quark in each decay pair
 
